@@ -22,9 +22,9 @@ CODE_SYMBOL_6="mixed rain and sleet"
 CODE_TEXT_7="mixed snow and sleet"
 CODE_SYMBOL_7="mixed snow and sleet"
 CODE_TEXT_8="freezing drizzle"
-CODE_SYMBOL_8="freezing drizzle"
+CODE_SYMBOL_8="☁"
 CODE_TEXT_9="drizzle"
-CODE_SYMBOL_9="drizzle"
+CODE_SYMBOL_9="☁"
 CODE_TEXT_10="freezing rain"
 CODE_SYMBOL_10="freezing rain"
 CODE_TEXT_11="showers"
@@ -32,6 +32,7 @@ CODE_SYMBOL_11="☔"
 CODE_SYMBOL_11="☇"
 CODE_TEXT_12="showers"
 CODE_SYMBOL_12="☔"
+CODE_SYMBOL_12="☇"
 CODE_TEXT_13="snow flurries"
 CODE_SYMBOL_13="snow flurries"
 CODE_TEXT_14="light snow showers"
@@ -114,7 +115,7 @@ CODE_SYMBOL_3200="not available"
 WEATHER_CACHE=/tmp/forecast
 CACHE_TTL=3000
 
-if [ $(($(stat --printf="%X" $WEATHER_CACHE 2>/dev/null) + $CACHE_TTL)) -lt $(date +%s) ]
+if ! [ -f $WEATHER_CACHE ] || [ $(($(stat --printf="%X" $WEATHER_CACHE 2>/dev/null) + $CACHE_TTL)) -lt $(date +%s) -o $(stat --printf="%s" $WEATHER_CACHE) -eq 0 ]
 then
     /usr/bin/curl --silent "http://weather.yahooapis.com/forecastrss?w=$AREA_CODE&u=c" > $WEATHER_CACHE
 fi
